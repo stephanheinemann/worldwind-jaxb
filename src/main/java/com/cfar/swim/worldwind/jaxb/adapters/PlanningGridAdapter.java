@@ -74,7 +74,6 @@ public class PlanningGridAdapter extends XmlAdapter<PlanningGrid, com.cfar.swim.
 	@Override
 	public com.cfar.swim.worldwind.environments.PlanningGrid unmarshal(PlanningGrid grid) throws Exception {
 		Box box = new GeometricBoxAdapter(this.globe).unmarshal(grid);
-		// TODO: check zero division?
 		double side = box.getRLength() / grid.getDivision().intValue();
 		Cube envCube = new Cube(box.getOrigin(), box.getUnitAxes(), side);
         int sCells = (int) Math.ceil(box.getSLength() / side);
@@ -113,8 +112,7 @@ public class PlanningGridAdapter extends XmlAdapter<PlanningGrid, com.cfar.swim.
 			marshalledGrid.setDivision(BigInteger.valueOf(
 					Math.round(grid.getRLength() / grid.getChild(0, 0, 0).getRLength())));
 		} else {
-			// TODO: zero possible?
-			marshalledGrid.setDivision(BigInteger.ZERO);
+			marshalledGrid.setDivision(BigInteger.ONE);
 		}
 		
 		return marshalledGrid;
