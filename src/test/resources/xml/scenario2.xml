@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2021, Stephan Heinemann (UVic Center for Aerospace Research)
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification,
+    are permitted provided that the following conditions are met:
+
+    1. Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+
+    2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+    3. Neither the name of the copyright holder nor the names of its contributors
+    may be used to endorse or promote products derived from this software without
+    specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+-->
+<safcs:scenario id="test"
+	xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd ../../../main/resources/xsd/scenario.xsd "
+	threshold="20" globe="Earth" time="2021-12-31T12:00:00">
+	<safcs:environment>
+		<safcs:grid bottom="0.0" division="10" top="2000">
+			<safcs:southWest latitude="0.0" longitude="0.0" />
+			<safcs:northEast latitude="50" longitude="90" />
+		</safcs:grid>
+	</safcs:environment>
+	<safcs:obstacles>
+		<safcs:cylinder radius="1000" bottom="0.0" top="2000">
+			<safcs:location longitude="20" latitude="40" />
+			<safcs:costInterval end="2022-12-31T12:00:00"
+				start="2001-12-31T12:00:00" id="obstacle0" cost="50" />
+		</safcs:cylinder>
+		
+	</safcs:obstacles>
+	<safcs:aircraft radius="150" type="Iris">
+		<safcs:center longitude="25" latitude="45" />
+		<safcs:costInterval end="2022-12-31T12:00:00"
+			start="2001-12-31T12:00:00" id="iris" cost="100" />
+	</safcs:aircraft>
+	<safcs:waypoints>
+		<safcs:waypoint longitude="25" latitude="45" altitude="1000"
+			designator="0">
+		</safcs:waypoint>
+	</safcs:waypoints>
+	<safcs:planner costPolicy="AVERAGE" riskPolicy="SAFETY">
+		<safcs:astar />
+	</safcs:planner>
+	<safcs:datalink downlinkPeriod="PT1S">
+		<safcs:simulated uplinkDelay="PT0.5S" />
+	</safcs:datalink>
+	<safcs:swim>
+		<safcs:simulated resourceDirectory="swim" updatePeriod="PT1S"
+			updateProbability="0.1" updateQuantity="1" />
+	</safcs:swim>
+</safcs:scenario>

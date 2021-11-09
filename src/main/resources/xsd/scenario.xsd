@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2021, Stephan Heinemann (UVic Center for Aerospace Research)
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification,
+    are permitted provided that the following conditions are met:
+
+    1. Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+
+    2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+    3. Neither the name of the copyright holder nor the names of its contributors
+    may be used to endorse or promote products derived from this software without
+    specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+-->
+<schema
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd"
+	xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd"
+	elementFormDefault="qualified">
+
+    <element name="scenario">
+	    <complexType>
+	    	<sequence>
+	            <element name="environment" type="safcs:Environment"
+	    			maxOccurs="1" minOccurs="1">
+	    		</element>
+	            <element name="obstacles" type="safcs:Obstacles" maxOccurs="1" minOccurs="0">
+	    		</element>
+	            <element name="aircraft" type="safcs:Aircraft" maxOccurs="1"
+	    			minOccurs="0">
+	    		</element>
+	    		<element name="waypoints" type="safcs:Waypoints"
+	    			maxOccurs="1" minOccurs="0">
+	    		</element>
+	    		<element name="planner" type="safcs:Planner" maxOccurs="1"
+	    			minOccurs="1">
+	    		</element>
+	    		<element name="datalink" type="safcs:Datalink" maxOccurs="1"
+	    			minOccurs="1">
+	    		</element>
+	    		<element name="swim" type="safcs:Swim" maxOccurs="1"
+	    			minOccurs="1">
+	    		</element>
+	    	</sequence>
+	    	<attribute name="id" type="ID" use="required"></attribute>
+	        <attribute name="time" type="dateTime" use="optional"></attribute>
+	    	<attribute name="threshold" type="double" use="optional" default="0"></attribute>
+	    	<attribute name="globe" type="safcs:Globe" use="optional" default="Earth"></attribute>
+	    </complexType>
+	</element>
+
+
+    
+    
+    
+    
+
+    <simpleType name="Globe">
+    	<restriction base="string">
+    		<enumeration value="Earth"></enumeration>
+    		<enumeration value="EarthFlat"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    
+    <complexType name="Environment">
+    	<choice>
+    		<element name="grid" type="safcs:PlanningGrid" maxOccurs="1" minOccurs="1"></element>
+    		<element name="continuum" type="safcs:PlanningContinuum" maxOccurs="1" minOccurs="1"></element>
+    	</choice>
+    </complexType>
+    
+
+    <complexType name="GeometricBox">
+    	<complexContent>
+    		<extension base="safcs:Sector">
+    			<attribute name="bottom" type="double" use="required"></attribute>
+    			<attribute name="top" type="double" use="required"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="Position">
+    	<complexContent>
+    		<extension base="safcs:Location">
+
+
+    			<attribute name="altitude" type="double"
+    				use="optional" default="0">
+    			</attribute>
+
+
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+
+    <complexType name="Aircraft">
+    	<complexContent>
+    		<extension base="safcs:ObstacleSphere">
+    			<sequence>
+    				<element name="capabilities" type="safcs:Capabilities" maxOccurs="1" minOccurs="0"></element>
+    			</sequence>
+    			<attribute name="type" type="safcs:AircraftType"
+    				use="required">
+    			</attribute>
+    			<attribute name="cid" type="safcs:CombatIdentification"
+    				use="optional" default="UNKNOWN">
+    			</attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <simpleType name="AircraftType">
+    	<restriction base="string">
+    		<enumeration value="Iris"></enumeration>
+    		<enumeration value="A320"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    
+    <complexType name="Sphere">
+    	<sequence>
+    		<element name="center" type="safcs:Position" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    	</sequence>
+    	<attribute name="radius" type="double" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Capabilities">
+    	<attribute name="approachRateOfDescent" type="double"
+    		use="required">
+    	</attribute>
+    	<attribute name="approachSpeed" type="double" use="required"></attribute>
+    	<attribute name="cruiseClimbSpeed" type="double" use="required"></attribute>
+    	<attribute name="cruiseDescentSpeed" type="double" use="required"></attribute>
+    	<attribute name="cruiseRateOfClimb" type="double" use="required"></attribute>
+    	<attribute name="cruiseRateOfDescent" type="double" use="required"></attribute>
+    	<attribute name="cruiseSpeed" type="double" use="required"></attribute>
+    	<attribute name="maximumAngleOfClimb" type="double" use="required"></attribute>
+    	<attribute name="maximumAngleOfClimbSpeed" type="double" use="required"></attribute>
+    	<attribute name="maximumGlideSpeed" type="double" use="required"></attribute>
+    	<attribute name="maximumRateOfClimb" type="double" use="required"></attribute>
+    	<attribute name="maximumRateOfClimbSpeed" type="double" use="required"></attribute>
+    	<attribute name="maximumRateOfDescent" type="double" use="required"></attribute>
+    	<attribute name="maximumRateOfDescentSpeed" type="double" use="required"></attribute>
+    	<attribute name="maximumSpeed" type="double" use="required"></attribute>
+    </complexType>
+
+
+    <complexType name="Waypoints">
+    	<sequence>
+            <element name="waypoint" type="safcs:Waypoint"
+    			maxOccurs="unbounded" minOccurs="1">
+    		</element>
+    	</sequence>
+    </complexType>
+
+
+
+    <complexType name="Planner">
+    	<choice>
+    		<element name="astar" type="safcs:AStar" maxOccurs="1" minOccurs="1"></element>
+    		<element name="thetastar" type="safcs:ThetaStar" maxOccurs="1" minOccurs="1"></element>
+    		<element name="arastar" type="safcs:ARAStar" maxOccurs="1" minOccurs="1"></element>
+    		<element name="adstar" type="safcs:ADStar" maxOccurs="1" minOccurs="1"></element>
+    		<element name="oadstar" type="safcs:OADStar" maxOccurs="1" minOccurs="1"></element>
+    		<element name="brrt" type="safcs:RRT" maxOccurs="1" minOccurs="1"></element>
+    		<element name="arrt" type="safcs:ARRT" maxOccurs="1" minOccurs="1"></element>
+    		<element name="drrt" type="safcs:DRRT" maxOccurs="1" minOccurs="1"></element>
+    		<element name="hrrt" type="safcs:HRRT" maxOccurs="1" minOccurs="1"></element>
+    		<element name="adrrt" type="safcs:ADRRT" maxOccurs="1" minOccurs="1"></element>
+    		<element name="oadrrt" type="safcs:OADRRT" maxOccurs="1" minOccurs="1"></element>
+    		<element name="rrtstar" type="safcs:RRTStar" maxOccurs="1" minOccurs="1"></element>
+    	</choice>
+    	<attribute name="riskPolicy" type="safcs:RiskPolicy"
+    		use="required">
+    	</attribute>
+    	<attribute name="costPolicy" type="safcs:CostPolicy"
+    		use="required">
+    	</attribute>
+    </complexType>
+    
+    <simpleType name="RiskPolicy">
+    	<restriction base="string">
+    		<enumeration value="AVOIDANCE"></enumeration>
+    		<enumeration value="PROBE"></enumeration>
+    		<enumeration value="SAFETY"></enumeration>
+    		<enumeration value="EFFECTIVENESS"></enumeration>
+    		<enumeration value="IGNORANCE"></enumeration>
+    		<enumeration value="INSANITY"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <simpleType name="CostPolicy">
+    	<restriction base="string">
+    		<enumeration value="MINIMUM"></enumeration>
+    		<enumeration value="AVERAGE"></enumeration>
+    		<enumeration value="MAXIMUM"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <complexType name="AStar"></complexType>
+
+    <complexType name="ThetaStar"></complexType>
+
+    <complexType name="ARAStar">
+    	<sequence>
+    		<element name="anytime" type="safcs:Anytime" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="ADStar">
+    	<sequence>
+    		<element name="anytime" type="safcs:Anytime" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="dynamic" type="safcs:Dynamic" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="OADStar">
+    	<sequence>
+    		<element name="anytime" type="safcs:Anytime" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="dynamic" type="safcs:Dynamic" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="online" type="safcs:Online" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="RRT">
+    	<sequence>
+    		<element name="sampling" type="safcs:Sampling" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="ARRT">
+    	<sequence>
+    		<element name="sampling" type="safcs:Sampling" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="neighbors" type="safcs:Neighbors" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="anytime" type="safcs:Anytime" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="DRRT">
+    	<sequence>
+    		<element name="sampling" type="safcs:Sampling" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="neighbors" type="safcs:Neighbors" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="heuristic" type="safcs:Heuristic" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="dynamic" type="safcs:Dynamic" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="HRRT">
+    	<sequence>
+    		<element name="sampling" type="safcs:Sampling" maxOccurs="1" minOccurs="1"></element>
+    		<element name="neighbors" type="safcs:Neighbors" maxOccurs="1" minOccurs="1"></element>
+    		<element name="heuristic" type="safcs:Heuristic" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="ADRRT">
+    	<sequence>
+    		<element name="sampling" type="safcs:Sampling" maxOccurs="1" minOccurs="1"></element>
+    		<element name="neighbors" type="safcs:Neighbors" maxOccurs="1" minOccurs="1"></element>
+    		<element name="anytime" type="safcs:Anytime" maxOccurs="1" minOccurs="1"></element>
+    		<element name="dynamic" type="safcs:Dynamic" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="OADRRT">
+    	<sequence>
+    		<element name="sampling" type="safcs:Sampling" maxOccurs="1" minOccurs="1"></element>
+    		<element name="neighbors" type="safcs:Neighbors" maxOccurs="1" minOccurs="1"></element>
+    		<element name="anytime" type="safcs:Anytime" maxOccurs="1" minOccurs="1"></element>
+    		<element name="dynamic" type="safcs:Dynamic" maxOccurs="1" minOccurs="1"></element>
+    		<element name="online" type="safcs:Online" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="RRTStar">
+    	<sequence>
+    		<element name="sampling" type="safcs:Sampling" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="Anytime">
+    	<attribute name="minimumQuality" type="double" use="required"></attribute>
+    	<attribute name="maximumQuality" type="double" use="required"></attribute>
+    	<attribute name="qualityImprovement" type="double" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Dynamic">
+    	<attribute name="significantChange" type="double" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Online">
+    	<sequence>
+    		<element name="errors" type="safcs:Errors" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    	<attribute name="minDeliberation" type="duration" use="optional"></attribute>
+    	<attribute name="maxDeliberation" type="duration" use="optional"></attribute>
+    </complexType>
+
+    <complexType name="Errors">
+    	<sequence>
+    		<element name="maxTrackError" type="safcs:TrackError" maxOccurs="1" minOccurs="1"></element>
+    		<element name="maxTakeOffError"
+    			type="safcs:TrackPointError" maxOccurs="1" minOccurs="1">
+    		</element>
+    		<element name="maxLandingError" type="safcs:TrackPointError" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="TrackError">
+    	<attribute name="crossTrackError" type="double" use="required"></attribute>
+    	<attribute name="altitudeError" type="double" use="required"></attribute>
+    	<attribute name="openingBearingError" type="double" use="required"></attribute>
+    	<attribute name="closingBearingError" type="double" use="required"></attribute>
+    	<attribute name="timingError" type="duration" use="required"></attribute>
+    </complexType>
+
+
+    <complexType name="TrackPointError">
+    	<attribute name="horizontalError" type="double" use="required"></attribute>
+    	<attribute name="verticalError" type="double" use="required"></attribute>
+    	<attribute name="timingError" type="duration" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Sampling">
+    	<attribute name="distribution" type="safcs:Distribution" use="required"></attribute>
+    	<attribute name="strategy" type="safcs:Strategy" use="required"></attribute>
+    	<attribute name="extension" type="safcs:Extension" use="required"></attribute>
+    	<attribute name="maxIterations" type="positiveInteger" use="required"></attribute>
+    	<attribute name="epsilon" type="double" use="required"></attribute>
+    	<attribute name="bias" type="positiveInteger" use="required"></attribute>
+    	<attribute name="goalThreshold" type="double" use="required"></attribute>
+    </complexType>
+
+    <simpleType name="Distribution">
+    	<restriction base="string">
+    		<enumeration value="UNIFORM"></enumeration>
+    		<enumeration value="GAUSSIAN"></enumeration>
+    		<enumeration value="ELLIPSOIDAL"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <simpleType name="Strategy">
+    	<restriction base="string">
+    		<enumeration value="EXTEND"></enumeration>
+    		<enumeration value="CONNECT"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <simpleType name="Extension">
+    	<restriction base="string">
+    		<enumeration value="LINEAR"></enumeration>
+    		<enumeration value="FEASIBLE"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <complexType name="Neighbors">
+    	<attribute name="neighborLimit" type="positiveInteger" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Heuristic">
+    	<attribute name="algorithm" type="safcs:Algorithm" use="required"></attribute>
+    	<attribute name="variant" type="safcs:Variant" use="required"></attribute>
+    	<attribute name="qualityBound" type="double" use="required"></attribute>
+    </complexType>
+
+    <simpleType name="Variant">
+    	<restriction base="string">
+    		<enumeration value="ORIGINAL"></enumeration>
+    		<enumeration value="ENHANCED"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <simpleType name="Algorithm">
+    	<restriction base="string">
+    		<enumeration value="hRRT"></enumeration>
+    		<enumeration value="IkRRT"></enumeration>
+    		<enumeration value="BkRRT"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <complexType name="Datalink">
+    	<choice>
+    		<element name="simulated" type="safcs:SimulatedDatalink"
+    			maxOccurs="1" minOccurs="1">
+    		</element>
+    		<element name="dronekit" type="safcs:DronekitDatalink"
+    			maxOccurs="1" minOccurs="1">
+    		</element>
+    		<element name="mavlink" type="safcs:MavlinkDatalink"
+    			maxOccurs="1" minOccurs="1">
+    		</element>
+    	</choice>
+    	<attribute name="downlinkPeriod" type="duration" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Swim">
+    	<sequence>
+            <element name="subscriptions" type="safcs:Subscriptions" maxOccurs="1" minOccurs="0"></element>
+    		<choice>
+                <element name="simulated" type="safcs:SimulatedSwim"
+    				maxOccurs="1" minOccurs="1">
+    			</element>
+    			<element name="live" type="safcs:LiveSwim" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    		</choice>
+        </sequence>
+    </complexType>
+    
+    <complexType name="SimulatedDatalink">
+    	<sequence>
+    		<element name="errors" type="safcs:Errors" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="uplinkDelay" type="duration" use="required"></attribute>
+    	<attribute name="errorProbability" type="float"
+    		use="optional">
+    	</attribute>
+    </complexType>
+
+    <complexType name="DronekitDatalink">
+    	<attribute name="host" type="string" use="required"></attribute>
+    	<attribute name="port" type="positiveInteger" use="required"></attribute>
+        <attribute name="peer" type="positiveInteger" use="optional"></attribute>
+    </complexType>
+
+    <complexType name="MavlinkDatalink">
+    	<attribute name="peer" type="positiveInteger" use="optional"></attribute>
+    </complexType>
+
+    <complexType name="PlanningGrid">
+    	<complexContent>
+    		<extension base="safcs:GeometricBox">
+    			<attribute name="division" type="positiveInteger"
+    				use="required">
+    			</attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="PlanningContinuum">
+    	<complexContent>
+    		<extension base="safcs:GeometricBox">
+    			<attribute name="resolution" type="double"
+    				use="required">
+    			</attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+
+
+    <simpleType name="SwimProtocol">
+    	<restriction base="string">
+    		<enumeration value="AIXM"></enumeration>
+    		<enumeration value="FIXM"></enumeration>
+    		<enumeration value="WXXM"></enumeration>
+    		<enumeration value="IWXXM"></enumeration>
+    		<enumeration value="AMXM"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <complexType name="SimulatedSwim">
+    	<attribute name="updatePeriod" type="duration" use="required"></attribute>
+    	<attribute name="updateProbability" type="float"
+    		use="required">
+    	</attribute>
+    	<attribute name="updateQuantity" type="positiveInteger"
+    		use="required">
+    	</attribute>
+    	<attribute name="resourceDirectory" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="LiveSwim">
+    </complexType>
+
+    <complexType name="Subscriptions">
+    	<sequence>
+    		<element name="protocol" type="safcs:SwimProtocol" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <simpleType name="CombatIdentification">
+    	<restriction base="string">
+    		<enumeration value="UNKNOWN"></enumeration>
+    		<enumeration value="FRIEND"></enumeration>
+    		<enumeration value="NEUTRAL"></enumeration>
+    		<enumeration value="HOSTILE"></enumeration>
+    	</restriction>
+    </simpleType>
+
+
+
+    <complexType name="Obstacles">
+    	<sequence>
+    		<choice maxOccurs="unbounded" minOccurs="1">
+	    		<element name="box" type="safcs:ObstacleBox" maxOccurs="1"
+	    			minOccurs="1">
+	    		</element>
+	    		<element name="cylinder" type="safcs:ObstacleCylinder" maxOccurs="1" minOccurs="1"></element>
+	    		<element name="sphere" type="safcs:ObstacleSphere" maxOccurs="1" minOccurs="1"></element>
+    		</choice>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ObstacleSphere">
+    	<complexContent>
+    		<extension base="safcs:Sphere">
+    			<sequence>
+    				<element name="costInterval"
+    					type="safcs:CostInterval" maxOccurs="1" minOccurs="1">
+    				</element>
+    				<element name="depiction" type="safcs:Depiction" maxOccurs="1" minOccurs="0"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="CostInterval">
+    	<complexContent>
+    		<extension base="safcs:TimeInterval">
+                <attribute name="id" type="ID" use="required"></attribute>
+                <attribute name="cost" type="double" use="optional" default="0"></attribute>
+
+    			<attribute name="enabled" type="boolean" use="optional" default="true"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="TimeInterval">
+    	<attribute name="start" type="dateTime" use="required"></attribute>
+    	<attribute name="end" type="dateTime" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Sector">
+    	<sequence>
+    		<element name="southWest" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
+    		<element name="northEast" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Location">
+    	<attribute name="latitude" type="double" use="required"></attribute>
+    	<attribute name="longitude" type="double" use="required"></attribute>
+    </complexType>
+
+    <complexType name="ObstacleBox">
+    	<complexContent>
+    		<extension base="safcs:Box">
+    			<sequence>
+    				<element name="costInterval"
+    					type="safcs:CostInterval" maxOccurs="1" minOccurs="1">
+    				</element>
+    				<element name="depiction" type="safcs:Depiction" maxOccurs="1" minOccurs="0"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="ObstacleCylinder">
+    	<complexContent>
+    		<extension base="safcs:Cylinder">
+    			<sequence>
+    				<element name="costInterval"
+    					type="safcs:CostInterval" maxOccurs="1" minOccurs="1">
+    				</element>
+    				<element name="depiction" type="safcs:Depiction" maxOccurs="1" minOccurs="0"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+
+    <complexType name="Cylinder">
+    	<sequence>
+    		<element name="location" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    	<attribute name="bottom" type="double" use="required"></attribute>
+    	<attribute name="top" type="double" use="required"></attribute>
+    	<attribute name="radius" type="double" use="required"></attribute>
+    </complexType>
+
+
+    <complexType name="Waypoint">
+    	<complexContent>
+    		<extension base="safcs:Position">
+    			<sequence>
+    				<element name="depiction" type="safcs:Depiction" maxOccurs="1" minOccurs="0"></element>
+    			</sequence>
+    			<attribute name="designator" type="string"
+    				use="optional" default="?">
+    			</attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+    
+
+
+    <complexType name="Depiction">
+        <attribute name="symbology" type="safcs:Symbology" use="required"></attribute>
+        <attribute name="sidc" type="string" use="required"></attribute>
+    	<attribute name="text" type="string" use="optional"></attribute>
+    	<attribute name="image" type="string" use="optional"></attribute>
+    </complexType>
+
+    <simpleType name="Symbology">
+    	<restriction base="string">
+    		<enumeration value="TacticalSymbol"></enumeration>
+    		<enumeration value="TacticalPoint"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <complexType name="Box">
+    	<sequence>
+    		<element name="begin" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
+    		<element name="end" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
+    	</sequence>
+    	<attribute name="leftWidth" type="double" use="required"></attribute>
+    	<attribute name="rightWidth" type="double" use="required"></attribute>
+    	<attribute name="bottom" type="double" use="required"></attribute>
+    	<attribute name="top" type="double" use="required"></attribute>
+    </complexType>
+</schema>
