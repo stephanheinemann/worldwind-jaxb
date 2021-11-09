@@ -39,22 +39,24 @@
     <element name="scenario">
 	    <complexType>
 	    	<sequence>
-	            <element name="environment" type="safcs:Environment"
+	    		<element name="environment" type="safcs:Environment"
 	    			maxOccurs="1" minOccurs="1">
 	    		</element>
-	            <element name="obstacles" type="safcs:Obstacles" maxOccurs="1" minOccurs="0">
+	    		<element name="obstacles" type="safcs:Obstacles"
+	    			maxOccurs="1" minOccurs="0">
 	    		</element>
-	            <element name="aircraft" type="safcs:Aircraft" maxOccurs="1"
-	    			minOccurs="0">
+	    		<element name="aircraft" type="safcs:Aircraft"
+	    			maxOccurs="1" minOccurs="0">
 	    		</element>
 	    		<element name="waypoints" type="safcs:Waypoints"
 	    			maxOccurs="1" minOccurs="0">
 	    		</element>
-	    		<element name="planner" type="safcs:Planner" maxOccurs="1"
-	    			minOccurs="1">
+                <element name="trajectory" type="safcs:Trajectory" maxOccurs="1" minOccurs="0"></element>
+                <element name="planner" type="safcs:Planner"
+	    			maxOccurs="1" minOccurs="1">
 	    		</element>
-	    		<element name="datalink" type="safcs:Datalink" maxOccurs="1"
-	    			minOccurs="1">
+	    		<element name="datalink" type="safcs:Datalink"
+	    			maxOccurs="1" minOccurs="1">
 	    		</element>
 	    		<element name="swim" type="safcs:Swim" maxOccurs="1"
 	    			minOccurs="1">
@@ -624,15 +626,22 @@
     	<complexContent>
     		<extension base="safcs:Position">
     			<sequence>
-    				<element name="depiction" type="safcs:Depiction" maxOccurs="1" minOccurs="0"></element>
+    				<element name="depiction" type="safcs:Depiction"
+    					maxOccurs="1" minOccurs="0">
+    				</element>
     			</sequence>
     			<attribute name="designator" type="string"
     				use="optional" default="?">
     			</attribute>
+    			<attribute name="cost" type="double" use="optional"></attribute>
+    			<attribute name="dtg" type="double" use="optional"></attribute>
+                <attribute name="ttg" type="duration" use="optional"></attribute>
+                <attribute name="eto" type="time" use="optional"></attribute>
+    			<attribute name="ato" type="time" use="optional"></attribute>
     		</extension>
     	</complexContent>
     </complexType>
-    
+
 
 
     <complexType name="Depiction">
@@ -658,5 +667,14 @@
     	<attribute name="rightWidth" type="double" use="required"></attribute>
     	<attribute name="bottom" type="double" use="required"></attribute>
     	<attribute name="top" type="double" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Trajectory">
+    	<sequence>
+    		<element name="waypoint" type="safcs:Waypoint"
+    			maxOccurs="unbounded" minOccurs="1">
+    		</element>
+    		<element name="depiction" type="safcs:Depiction" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
     </complexType>
 </schema>
