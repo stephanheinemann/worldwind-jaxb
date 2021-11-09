@@ -31,9 +31,9 @@
 
 -->
 <safcs:scenario id="test"
-	xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd"
+	xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/main/src/main/resources/xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd ../../../main/resources/xsd/scenario.xsd "
+	xsi:schemaLocation="https://github.com/stephanheinemann/worldwind-jaxb/tree/main/src/main/resources/xsd ../../../main/resources/xsd/scenario.xsd "
 	threshold="20" globe="Earth" time="2021-12-31T12:00:00">
 	<safcs:environment>
 		<safcs:grid bottom="0.0" division="10" top="2000">
@@ -47,7 +47,7 @@
 			<safcs:costInterval end="2022-12-31T12:00:00"
 				start="2001-12-31T12:00:00" id="obstacle0" cost="50" />
 		</safcs:cylinder>
-		
+
 	</safcs:obstacles>
 	<safcs:aircraft radius="150" type="Iris">
 		<safcs:center longitude="25" latitude="45" />
@@ -55,8 +55,8 @@
 			start="2001-12-31T12:00:00" id="iris" cost="100" />
 	</safcs:aircraft>
 	<safcs:waypoints>
-		<safcs:waypoint longitude="25" latitude="45" altitude="1000"
-			designator="0">
+		<safcs:waypoint longitude="25" latitude="45"
+			altitude="1000" designator="0">
 		</safcs:waypoint>
 	</safcs:waypoints>
 	<safcs:planner costPolicy="AVERAGE" riskPolicy="SAFETY">
@@ -66,7 +66,7 @@
 		<safcs:simulated uplinkDelay="PT0.5S" />
 	</safcs:datalink>
 	<safcs:swim>
-		<safcs:simulated resourceDirectory="swim" updatePeriod="PT1S"
-			updateProbability="0.1" updateQuantity="1" />
+		<safcs:simulated resourceDirectory="swim"
+			updatePeriod="PT1S" updateProbability="0.1" updateQuantity="1" />
 	</safcs:swim>
 </safcs:scenario>

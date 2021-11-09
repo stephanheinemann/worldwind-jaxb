@@ -30,20 +30,25 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -->
-<safcs:scenario id="idvalue0" xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd ../../../main/resources/xsd/scenario.xsd ">
-  <safcs:environment>
-    <safcs:grid bottom="0.0" division="1" top="0.0">
-      <safcs:southWest latitude="0.0" longitude="0.0"/>
-      <safcs:northEast latitude="0.0" longitude="0.0"/>
-    </safcs:grid>
-  </safcs:environment>
-  <safcs:planner costPolicy="MINIMUM" riskPolicy="AVOIDANCE">
-    <safcs:astar/>
-  </safcs:planner>
-  <safcs:datalink downlinkPeriod="P1D">
-    <safcs:simulated uplinkDelay="P1D"/>
-  </safcs:datalink>
-  <safcs:swim>
-    <safcs:simulated resourceDirectory="" updatePeriod="P1D" updateProbability="0.0" updateQuantity="1"/>
-  </safcs:swim>
+<safcs:scenario id="idvalue0"
+	xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/main/src/main/resources/xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://github.com/stephanheinemann/worldwind-jaxb/tree/main/src/main/resources/xsd ../../../main/resources/xsd/scenario.xsd ">
+	<safcs:environment>
+		<safcs:grid bottom="0.0" division="1" top="0.0">
+			<safcs:southWest latitude="0.0" longitude="0.0" />
+			<safcs:northEast latitude="0.0" longitude="0.0" />
+		</safcs:grid>
+	</safcs:environment>
+	<safcs:planner costPolicy="MINIMUM"
+		riskPolicy="AVOIDANCE">
+		<safcs:astar />
+	</safcs:planner>
+	<safcs:datalink downlinkPeriod="P1D">
+		<safcs:simulated uplinkDelay="P1D" />
+	</safcs:datalink>
+	<safcs:swim>
+		<safcs:simulated resourceDirectory=""
+			updatePeriod="P1D" updateProbability="0.0" updateQuantity="1" />
+	</safcs:swim>
 </safcs:scenario>

@@ -32,8 +32,8 @@
 -->
 <schema
 	xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd"
-	xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd"
+	targetNamespace="https://github.com/stephanheinemann/worldwind-jaxb/tree/main/src/main/resources/xsd"
+	xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/main/src/main/resources/xsd"
 	elementFormDefault="qualified">
 
     <element name="scenario">
