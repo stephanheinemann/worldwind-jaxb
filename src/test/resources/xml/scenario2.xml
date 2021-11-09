@@ -30,10 +30,10 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -->
-<safcs:scenario id="test"
-	xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/main/src/main/resources/xsd"
+<safcs:scenario id="Scenario 2"
+	xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="https://github.com/stephanheinemann/worldwind-jaxb/tree/main/src/main/resources/xsd ../../../main/resources/xsd/scenario.xsd "
+	xsi:schemaLocation="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd ../../../main/resources/xsd/scenario.xsd "
 	threshold="20" globe="Earth" time="2021-12-31T12:00:00">
 	<safcs:environment>
 		<safcs:grid bottom="0.0" division="10" top="2000">
