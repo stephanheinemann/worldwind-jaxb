@@ -68,6 +68,8 @@ public class ScenarioMarshaller extends AbstractMarshallerImpl {
 	 * @param jaxbElement the scenario JAXB element to be marshalled
 	 * @param result the marshalled result
 	 * 
+	 * @throws JAXBException if the scenario cannot be marshalled
+	 * 
 	 * @see javax.xml.bind.Marshaller#marshal(Object, Result)
 	 */
 	@Override

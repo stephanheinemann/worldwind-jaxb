@@ -74,6 +74,8 @@ public class ScenarioUnmarshaller extends AbstractUnmarshallerImpl {
 	 * 
 	 * @return the unmarshalled scenario node
 	 * 
+	 * @throws JAXBException if the scenario cannot be unmarshalled
+	 * 
 	 * @see javax.xml.bind.Unmarshaller#unmarshal(Node)
 	 */
 	@Override
@@ -100,6 +102,8 @@ public class ScenarioUnmarshaller extends AbstractUnmarshallerImpl {
 	 * @param source the input source of the scenario to be unmarshalled
 	 * 
 	 * @return the unmarshalled scenario
+	 * 
+	 * @throws JAXBException if the scenario cannot be unmarshalled
 	 * 
 	 * @see javax.xml.bind.helpers.AbstractUnmarshallerImpl#unmarshal(XMLReader, InputSource)
 	 */
