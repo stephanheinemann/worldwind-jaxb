@@ -62,7 +62,7 @@
 	    			minOccurs="1">
 	    		</element>
 	    	</sequence>
-	    	<attribute name="id" type="ID" use="required"></attribute>
+	    	<attribute name="id" type="string" use="required"></attribute>
 	        <attribute name="time" type="dateTime" use="optional"></attribute>
 	    	<attribute name="threshold" type="double" use="optional" default="0"></attribute>
 	    	<attribute name="globe" type="safcs:Globe" use="optional" default="Earth"></attribute>
@@ -133,12 +133,13 @@
 
     <simpleType name="AircraftType">
     	<restriction base="string">
-    		<enumeration value="Iris"></enumeration>
+    		<enumeration value="IRIS"></enumeration>
     		<enumeration value="A320"></enumeration>
+    		<enumeration value="H135"></enumeration>
     	</restriction>
     </simpleType>
 
-    
+
     <complexType name="Sphere">
     	<sequence>
     		<element name="center" type="safcs:Position" maxOccurs="1"
@@ -146,6 +147,7 @@
     		</element>
     	</sequence>
     	<attribute name="radius" type="double" use="required"></attribute>
+    	<attribute name="centerDatum" type="safcs:Datum" use="optional" default="ASL"></attribute>
     </complexType>
 
     <complexType name="Capabilities">
@@ -614,11 +616,15 @@
 
     <complexType name="Cylinder">
     	<sequence>
-    		<element name="location" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
+    		<element name="location" type="safcs:Location" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
     	</sequence>
+    	<attribute name="radius" type="double" use="required"></attribute>
     	<attribute name="bottom" type="double" use="required"></attribute>
     	<attribute name="top" type="double" use="required"></attribute>
-    	<attribute name="radius" type="double" use="required"></attribute>
+    	<attribute name="bottomDatum" type="safcs:Datum" use="optional" default="ASL"></attribute>
+    	<attribute name="topDatum" type="safcs:Datum" use="optional" default="ASL"></attribute>
     </complexType>
 
 
@@ -660,13 +666,19 @@
 
     <complexType name="Box">
     	<sequence>
-    		<element name="begin" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
-    		<element name="end" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
+    		<element name="begin" type="safcs:Location" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="end" type="safcs:Location" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
     	</sequence>
     	<attribute name="leftWidth" type="double" use="required"></attribute>
     	<attribute name="rightWidth" type="double" use="required"></attribute>
     	<attribute name="bottom" type="double" use="required"></attribute>
     	<attribute name="top" type="double" use="required"></attribute>
+    	<attribute name="bottomDatum" type="safcs:Datum" use="optional" default="ASL"></attribute>
+    	<attribute name="topDatum" type="safcs:Datum" use="optional" default="ASL"></attribute>
     </complexType>
 
     <complexType name="Trajectory">
@@ -677,4 +689,12 @@
     		<element name="depiction" type="safcs:Depiction" maxOccurs="1" minOccurs="0"></element>
     	</sequence>
     </complexType>
+
+    <simpleType name="Datum">
+    	<restriction base="string">
+    		<enumeration value="AGL"></enumeration>
+    		<enumeration value="AGR"></enumeration>
+    		<enumeration value="ASL"></enumeration>
+    	</restriction>
+    </simpleType>
 </schema>

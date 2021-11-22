@@ -56,9 +56,14 @@ public class SphereAdapter extends XmlAdapter<Sphere, SphereAirspace> {
 	 */
 	@Override
 	public SphereAirspace unmarshal(Sphere sphere) throws Exception {
-		return new SphereAirspace(
+		SphereAirspace unmarshalledSphere = new SphereAirspace(
 				new PositionAdapter().unmarshal(sphere.getCenter()),
 				sphere.getRadius());
+		
+		String centerDatum = new DatumAdapter().unmarshal(sphere.getCenterDatum());
+		unmarshalledSphere.setAltitudeDatum(centerDatum, centerDatum);
+		
+		return unmarshalledSphere;
 	}
 	
 	/**
@@ -75,9 +80,12 @@ public class SphereAdapter extends XmlAdapter<Sphere, SphereAirspace> {
 	@Override
 	public Sphere marshal(SphereAirspace sphere) throws Exception {
 		Sphere marshalledSphere = new Sphere();
+		
 		marshalledSphere.setRadius(sphere.getRadius());
 		marshalledSphere.setCenter(
 				new PositionAdapter().marshal(sphere.getReferencePosition()));
+		marshalledSphere.setCenterDatum(new DatumAdapter().marshal(sphere.getAltitudeDatum()[0]));
+		
 		return marshalledSphere;
 	}
 	

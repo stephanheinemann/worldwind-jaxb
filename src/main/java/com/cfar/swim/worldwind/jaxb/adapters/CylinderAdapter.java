@@ -59,7 +59,11 @@ public class CylinderAdapter extends XmlAdapter<Cylinder, CappedCylinder> {
 		CappedCylinder unmarshalledCylinder = new CappedCylinder(
 				new LocationAdapter().unmarshal(cylinder.getLocation()),
 				cylinder.getRadius());
+		
 		unmarshalledCylinder.setAltitudes(cylinder.getBottom(), cylinder.getTop());
+		unmarshalledCylinder.setAltitudeDatum(
+				new DatumAdapter().unmarshal(cylinder.getBottomDatum()),
+				new DatumAdapter().unmarshal(cylinder.getTopDatum()));
 		
 		return unmarshalledCylinder;
 	}
@@ -83,6 +87,8 @@ public class CylinderAdapter extends XmlAdapter<Cylinder, CappedCylinder> {
 		marshalledCylinder.setRadius(cylinder.getRadii()[1]);
 		marshalledCylinder.setBottom(cylinder.getAltitudes()[0]);
 		marshalledCylinder.setTop(cylinder.getAltitudes()[1]);
+		marshalledCylinder.setBottomDatum(new DatumAdapter().marshal(cylinder.getAltitudeDatum()[0]));
+		marshalledCylinder.setTopDatum(new DatumAdapter().marshal(cylinder.getAltitudeDatum()[1]));
 		
 		return marshalledCylinder;
 	}

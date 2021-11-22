@@ -49,7 +49,7 @@
 		</safcs:cylinder>
 
 	</safcs:obstacles>
-	<safcs:aircraft radius="150" type="Iris">
+	<safcs:aircraft radius="150" type="IRIS">
 		<safcs:center longitude="25" latitude="45" />
 		<safcs:costInterval end="2022-12-31T12:00:00"
 			start="2001-12-31T12:00:00" id="iris" cost="100" />

@@ -29,69 +29,83 @@
  */
 package com.cfar.swim.worldwind.jaxb.adapters;
 
+import javax.activation.UnsupportedDataTypeException;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import com.cfar.swim.worldwind.jaxb.scenario.Box;
+import com.cfar.swim.worldwind.jaxb.scenario.Datum;
+
+import gov.nasa.worldwind.avlist.AVKey;
 
 /**
- * Adapts a box.
+ * Adapts an altitude datum.
  * 
  * @author Stephan Heinemann
  *
  */
-public class BoxAdapter extends XmlAdapter<Box, gov.nasa.worldwind.render.airspaces.Box> {
+public class DatumAdapter extends XmlAdapter<Datum, String> {
 	
 	/**
-	 * Unmarshals a box.
+	 * Unmarshals an altitude datum.
 	 * 
-	 * @param box the box to be unmarshalled
+	 * @param datum the altitude datum to be unmarshalled
 	 * 
-	 * @return the unmarshalled box
+	 * @return the unmarshalled altitude datum
 	 * 
-	 * @throws Exception if the box cannot be unmarshalled
+	 * @throws Exception if the altitude datum cannot be unmarshalled
 	 * 
 	 * @see XmlAdapter#unmarshal(Object)
 	 */
 	@Override
-	public gov.nasa.worldwind.render.airspaces.Box unmarshal(Box box) throws Exception {
-		gov.nasa.worldwind.render.airspaces.Box unmarshalledBox =
-				new gov.nasa.worldwind.render.airspaces.Box(
-						new LocationAdapter().unmarshal(box.getBegin()),
-						new LocationAdapter().unmarshal(box.getEnd()),
-						box.getLeftWidth(), box.getRightWidth());
-		unmarshalledBox.setAltitudes(box.getBottom(), box.getTop());
-		unmarshalledBox.setAltitudeDatum(
-				new DatumAdapter().unmarshal(box.getBottomDatum()),
-				new DatumAdapter().unmarshal(box.getTopDatum()));
+	public String unmarshal(Datum datum) throws Exception {
+		String unmarshalledDatum = AVKey.ABOVE_MEAN_SEA_LEVEL;
 		
-		return unmarshalledBox;
+		switch (datum) {
+		case AGL:
+			unmarshalledDatum = AVKey.ABOVE_GROUND_LEVEL;
+			break;
+		case AGR:
+			unmarshalledDatum = AVKey.ABOVE_GROUND_REFERENCE;
+			break;
+		case ASL:
+			unmarshalledDatum = AVKey.ABOVE_MEAN_SEA_LEVEL;
+			break;
+		default:
+			throw new UnsupportedDataTypeException("unsupported altitude datum");
+		}
+		
+		return unmarshalledDatum;
 	}
 	
 	/**
-	 * Marshals a box.
+	 * Marshals an altitude datum.
 	 * 
-	 * @param box the box to be marshalled
+	 * @param datum the altitude datum to be marshalled
 	 * 
-	 * @return the marshalled box
+	 * @return the marshalled altitude datum
 	 * 
-	 * @throws Exception if the box cannot be marshalled
+	 * @throws Exception if the altitude datum cannot be marshalled
 	 * 
 	 * @see XmlAdapter#unmarshal(Object)
 	 */
 	@Override
-	public Box marshal(gov.nasa.worldwind.render.airspaces.Box box) throws Exception {
-		Box marshalledBox = new Box();
+	public Datum marshal(String datum) throws Exception {
+		Datum marshalledDatum = Datum.ASL;
 		
-		marshalledBox.setBegin(new LocationAdapter().marshal(box.getLocations()[0]));
-		marshalledBox.setEnd(new LocationAdapter().marshal(box.getLocations()[1]));
-		marshalledBox.setLeftWidth(box.getWidths()[0]);
-		marshalledBox.setRightWidth(box.getWidths()[1]);
-		marshalledBox.setBottom(box.getAltitudes()[0]);
-		marshalledBox.setTop(box.getAltitudes()[1]);
-		marshalledBox.setBottomDatum(new DatumAdapter().marshal(box.getAltitudeDatum()[0]));
-		marshalledBox.setTopDatum(new DatumAdapter().marshal(box.getAltitudeDatum()[1]));
+		switch (datum) {
+		case AVKey.ABOVE_GROUND_LEVEL:
+			marshalledDatum = Datum.AGL;
+			break;
+		case AVKey.ABOVE_GROUND_REFERENCE:
+			marshalledDatum = Datum.AGR;
+			break;
+		case AVKey.ABOVE_MEAN_SEA_LEVEL:
+			marshalledDatum = Datum.ASL;
+			break;
+		default:
+			throw new UnsupportedDataTypeException("unsupported altitude datum");
+		}
 		
-		return marshalledBox;
+		return marshalledDatum;
 	}
 	
 }

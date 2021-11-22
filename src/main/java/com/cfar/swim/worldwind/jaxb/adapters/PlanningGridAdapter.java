@@ -76,8 +76,8 @@ public class PlanningGridAdapter extends XmlAdapter<PlanningGrid, com.cfar.swim.
 		Box box = new GeometricBoxAdapter(this.globe).unmarshal(grid);
 		double side = box.getRLength() / grid.getDivision().intValue();
 		Cube envCube = new Cube(box.getOrigin(), box.getUnitAxes(), side);
-        int sCells = (int) Math.ceil(box.getSLength() / side);
-        int tCells = (int) Math.ceil(box.getTLength() / side);
+        int sCells = (int) Math.round(box.getSLength() / side);
+        int tCells = (int) Math.round(box.getTLength() / side);
         com.cfar.swim.worldwind.environments.PlanningGrid unmarshalledGrid =
         		new com.cfar.swim.worldwind.environments.PlanningGrid(
         				envCube, grid.getDivision().intValue(), sCells, tCells);
