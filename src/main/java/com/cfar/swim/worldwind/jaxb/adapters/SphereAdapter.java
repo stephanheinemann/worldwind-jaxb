@@ -59,6 +59,9 @@ public class SphereAdapter extends XmlAdapter<Sphere, SphereAirspace> {
 		SphereAirspace unmarshalledSphere = new SphereAirspace(
 				new PositionAdapter().unmarshal(sphere.getCenter()),
 				sphere.getRadius());
+		unmarshalledSphere.setAltitudes(
+				sphere.getCenter().getAltitude(),
+				sphere.getCenter().getAltitude() + sphere.getRadius());
 		
 		String centerDatum = new DatumAdapter().unmarshal(sphere.getCenterDatum());
 		unmarshalledSphere.setAltitudeDatum(centerDatum, centerDatum);
