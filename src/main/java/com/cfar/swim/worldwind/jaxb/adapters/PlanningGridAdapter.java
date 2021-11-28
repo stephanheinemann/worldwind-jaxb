@@ -76,8 +76,8 @@ public class PlanningGridAdapter extends XmlAdapter<PlanningGrid, com.cfar.swim.
 		Box box = new GeometricBoxAdapter(this.globe).unmarshal(grid);
 		double side = box.getRLength() / grid.getDivision().intValue();
 		Cube envCube = new Cube(box.getOrigin(), box.getUnitAxes(), side);
-        int sCells = (int) Math.round(box.getSLength() / side);
-        int tCells = (int) Math.round(box.getTLength() / side);
+        int sCells = Math.max(1, (int) Math.round(box.getSLength() / side));
+        int tCells = Math.max(1, (int) Math.round(box.getTLength() / side));
         com.cfar.swim.worldwind.environments.PlanningGrid unmarshalledGrid =
         		new com.cfar.swim.worldwind.environments.PlanningGrid(
         				envCube, grid.getDivision().intValue(), sCells, tCells);
@@ -110,7 +110,7 @@ public class PlanningGridAdapter extends XmlAdapter<PlanningGrid, com.cfar.swim.
 		
 		if (grid.hasChildren()) {
 			marshalledGrid.setDivision(BigInteger.valueOf(
-					Math.round(grid.getRLength() / grid.getChild(0, 0, 0).getRLength())));
+					Math.max(1l, Math.round(grid.getRLength() / grid.getChild(0, 0, 0).getRLength()))));
 		} else {
 			marshalledGrid.setDivision(BigInteger.ONE);
 		}
