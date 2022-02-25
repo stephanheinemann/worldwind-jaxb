@@ -62,6 +62,11 @@ public class ScenarioAdapter extends XmlAdapter<Scenario, com.cfar.swim.worldwin
 		}
 		unmarshalledScenario.setThreshold(scenario.getThreshold());
 		unmarshalledScenario.setGlobe(new GlobeAdapter().unmarshal(scenario.getGlobe()));
+		if (null != scenario.getEnvironment().getGrid()) {
+			unmarshalledScenario.setSector(new SectorAdapter().unmarshal(scenario.getEnvironment().getGrid()));
+		} else if (null != scenario.getEnvironment().getContinuum()) {
+			unmarshalledScenario.setSector(new SectorAdapter().unmarshal(scenario.getEnvironment().getContinuum()));
+		}
 		unmarshalledScenario.setEnvironment(new EnvironmentAdapter(
 				unmarshalledScenario.getGlobe()).unmarshal(scenario.getEnvironment()));
 		if (null != scenario.getObstacles()) {
@@ -73,6 +78,10 @@ public class ScenarioAdapter extends XmlAdapter<Scenario, com.cfar.swim.worldwin
 		if (null != scenario.getWaypoints()) {
 			unmarshalledScenario.addWaypoints(new WaypointsAdapter().unmarshal(scenario.getWaypoints()));
 		}
+		if (null != scenario.getTrajectory()) {
+			unmarshalledScenario.setTrajectory(new TrajectoryAdapter().unmarshal(scenario.getTrajectory()));
+		}
+		
 		unmarshalledScenario.setPlanner(new PlannerAdapter(
 				unmarshalledScenario.getAircraft(),
 				unmarshalledScenario.getEnvironment()).unmarshal(scenario.getPlanner()));
@@ -111,6 +120,9 @@ public class ScenarioAdapter extends XmlAdapter<Scenario, com.cfar.swim.worldwin
 		}
 		if (scenario.hasWaypoints()) {
 			marshalledScenario.setWaypoints(new WaypointsAdapter().marshal(scenario.getWaypoints()));
+		}
+		if (scenario.hasTrajectory()) {
+			marshalledScenario.setTrajectory(new TrajectoryAdapter().marshal(scenario.getTrajectory()));
 		}
 		marshalledScenario.setPlanner(new PlannerAdapter(
 				scenario.getAircraft(), scenario.getEnvironment()).marshal(scenario.getPlanner()));

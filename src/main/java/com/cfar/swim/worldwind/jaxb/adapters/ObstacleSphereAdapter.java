@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import com.cfar.swim.worldwind.jaxb.scenario.ObstacleSphere;
 import com.cfar.swim.worldwind.jaxb.scenario.Sphere;
 
+import gov.nasa.worldwind.render.airspaces.SphereAirspace;
+
 /**
  * Adapts an obstacle sphere.
  * 
@@ -55,10 +57,13 @@ public class ObstacleSphereAdapter extends XmlAdapter<ObstacleSphere, com.cfar.s
 	 */
 	@Override
 	public com.cfar.swim.worldwind.render.airspaces.ObstacleSphere unmarshal(ObstacleSphere obstacleSphere) throws Exception {
+		SphereAirspace sphere = new SphereAdapter().unmarshal(obstacleSphere);
 		com.cfar.swim.worldwind.render.airspaces.ObstacleSphere unmarshalledObstacleSphere =
 				new com.cfar.swim.worldwind.render.airspaces.ObstacleSphere(
-						new PositionAdapter().unmarshal(obstacleSphere.getCenter()),
-						obstacleSphere.getRadius());
+						sphere.getReferencePosition(),
+						sphere.getRadius());
+		
+		unmarshalledObstacleSphere.setAltitudeDatum(sphere.getAltitudeDatum()[0], sphere.getAltitudeDatum()[1]);
 		unmarshalledObstacleSphere.setCostInterval(new CostIntervalAdapter().unmarshal(obstacleSphere.getCostInterval()));
 		
 		if (null != obstacleSphere.getDepiction()) {
@@ -87,6 +92,7 @@ public class ObstacleSphereAdapter extends XmlAdapter<ObstacleSphere, com.cfar.s
 		Sphere sphere = new SphereAdapter().marshal(obstacleSphere);
 		marshalledObstacleSphere.setCenter(sphere.getCenter());
 		marshalledObstacleSphere.setRadius(sphere.getRadius());
+		marshalledObstacleSphere.setCenterDatum(sphere.getCenterDatum());
 		marshalledObstacleSphere.setCostInterval(new CostIntervalAdapter().marshal(obstacleSphere.getCostInterval()));
 		
 		if (obstacleSphere.hasDepiction()) {

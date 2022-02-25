@@ -92,7 +92,15 @@ public class CostIntervalAdapter extends XmlAdapter<CostInterval, com.cfar.swim.
 		marshalledCostInterval.setStart(timeInterval.getStart());
 		marshalledCostInterval.setEnd(timeInterval.getEnd());
 		marshalledCostInterval.setId(costInterval.getId());
-		marshalledCostInterval.setCost(costInterval.getCost());
+		
+		if (!costInterval.isEnabled()) {
+			costInterval.enable();
+			marshalledCostInterval.setCost(costInterval.getCost());
+			costInterval.disable();
+		} else {
+			marshalledCostInterval.setCost(costInterval.getCost());
+		}
+		
 		marshalledCostInterval.setEnabled(costInterval.isEnabled());
 		
 		return marshalledCostInterval;

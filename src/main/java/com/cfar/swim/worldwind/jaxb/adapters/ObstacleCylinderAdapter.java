@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import com.cfar.swim.worldwind.jaxb.scenario.Cylinder;
 import com.cfar.swim.worldwind.jaxb.scenario.ObstacleCylinder;
 
+import gov.nasa.worldwind.render.airspaces.CappedCylinder;
+
 /**
  * Adapts an obstacle cylinder.
  * 
@@ -55,13 +57,15 @@ public class ObstacleCylinderAdapter extends XmlAdapter<ObstacleCylinder, com.cf
 	 */
 	@Override
 	public com.cfar.swim.worldwind.render.airspaces.ObstacleCylinder unmarshal(ObstacleCylinder obstacleCylinder) throws Exception {
+		CappedCylinder cylinder = new CylinderAdapter().unmarshal(obstacleCylinder);
 		com.cfar.swim.worldwind.render.airspaces.ObstacleCylinder unmarshalledObstacleCylinder =
 				new com.cfar.swim.worldwind.render.airspaces.ObstacleCylinder(
-						new LocationAdapter().unmarshal(obstacleCylinder.getLocation()),
-						obstacleCylinder.getBottom(),
-						obstacleCylinder.getTop(),
-						obstacleCylinder.getRadius());
+						cylinder.getCenter(),
+						cylinder.getAltitudes()[0],
+						cylinder.getAltitudes()[1],
+						cylinder.getRadii()[1]);
 		
+		unmarshalledObstacleCylinder.setAltitudeDatum(cylinder.getAltitudeDatum()[0], cylinder.getAltitudeDatum()[1]);
 		unmarshalledObstacleCylinder.setCostInterval(new CostIntervalAdapter().unmarshal(obstacleCylinder.getCostInterval()));
 		
 		if (null != obstacleCylinder.getDepiction()) {
@@ -92,6 +96,8 @@ public class ObstacleCylinderAdapter extends XmlAdapter<ObstacleCylinder, com.cf
 		marshalledObstacleCylinder.setRadius(cylinder.getRadius());
 		marshalledObstacleCylinder.setBottom(cylinder.getBottom());
 		marshalledObstacleCylinder.setTop(cylinder.getTop());
+		marshalledObstacleCylinder.setBottomDatum(cylinder.getBottomDatum());
+		marshalledObstacleCylinder.setTopDatum(cylinder.getTopDatum());
 		marshalledObstacleCylinder.setCostInterval(new CostIntervalAdapter().marshal(obstacleCylinder.getCostInterval()));
 		
 		if (obstacleCylinder.hasDepiction()) {

@@ -59,6 +59,22 @@ public class WaypointAdapter extends XmlAdapter<Waypoint, com.cfar.swim.worldwin
 		com.cfar.swim.worldwind.planning.Waypoint unmarshalledWaypoint =
 				new com.cfar.swim.worldwind.planning.Waypoint(position);
 		unmarshalledWaypoint.setDesignator(waypoint.getDesignator());
+		if (null != waypoint.getCost()) {
+			unmarshalledWaypoint.setCost(waypoint.getCost());
+		}
+		if (null != waypoint.getDtg()) {
+			unmarshalledWaypoint.setDtg(waypoint.getDtg());
+		}
+		if (null != waypoint.getTtg()) {
+			unmarshalledWaypoint.setTtg(new DurationAdapter().unmarshal(waypoint.getTtg()));
+		}
+		if (null != waypoint.getEto()) {
+			unmarshalledWaypoint.setEto(new TimeAdapter().unmarshal(waypoint.getEto()));
+		}
+		if (null != waypoint.getAto()) {
+			unmarshalledWaypoint.setAto(new TimeAdapter().unmarshal(waypoint.getAto()));
+		}
+		
 		if (null != waypoint.getDepiction()) {
 			unmarshalledWaypoint.setDepiction(
 					new DepictionAdapter(position).unmarshal(waypoint.getDepiction()));
@@ -87,7 +103,18 @@ public class WaypointAdapter extends XmlAdapter<Waypoint, com.cfar.swim.worldwin
 		marshalledWaypoint.setLongitude(position.getLongitude());
 		marshalledWaypoint.setAltitude(position.getAltitude());
 		marshalledWaypoint.setDesignator(waypoint.getDesignator());
+		marshalledWaypoint.setCost(waypoint.getCost());
+		marshalledWaypoint.setDtg(waypoint.getDtg());
 		
+		if (waypoint.hasTtg()) {
+			marshalledWaypoint.setTtg(new DurationAdapter().marshal(waypoint.getTtg()));
+		}
+		if (waypoint.hasEto()) {
+			marshalledWaypoint.setEto(new TimeAdapter().marshal(waypoint.getEto()));
+		}
+		if (waypoint.hasAto()) {
+			marshalledWaypoint.setAto(new TimeAdapter().marshal(waypoint.getAto()));
+		}
 		if (waypoint.hasDepiction()) {
 			marshalledWaypoint.setDepiction(
 					new DepictionAdapter(waypoint).marshal(waypoint.getDepiction()));

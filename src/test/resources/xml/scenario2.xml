@@ -30,7 +30,7 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -->
-<safcs:scenario id="test"
+<safcs:scenario id="Scenario 2"
 	xmlns:safcs="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="https://github.com/stephanheinemann/worldwind-jaxb/tree/master/src/main/resources/xsd ../../../main/resources/xsd/scenario.xsd "
@@ -47,16 +47,16 @@
 			<safcs:costInterval end="2022-12-31T12:00:00"
 				start="2001-12-31T12:00:00" id="obstacle0" cost="50" />
 		</safcs:cylinder>
-		
+
 	</safcs:obstacles>
-	<safcs:aircraft radius="150" type="Iris">
+	<safcs:aircraft radius="150" type="IRIS">
 		<safcs:center longitude="25" latitude="45" />
 		<safcs:costInterval end="2022-12-31T12:00:00"
 			start="2001-12-31T12:00:00" id="iris" cost="100" />
 	</safcs:aircraft>
 	<safcs:waypoints>
-		<safcs:waypoint longitude="25" latitude="45" altitude="1000"
-			designator="0">
+		<safcs:waypoint longitude="25" latitude="45"
+			altitude="1000" designator="0">
 		</safcs:waypoint>
 	</safcs:waypoints>
 	<safcs:planner costPolicy="AVERAGE" riskPolicy="SAFETY">
@@ -66,7 +66,7 @@
 		<safcs:simulated uplinkDelay="PT0.5S" />
 	</safcs:datalink>
 	<safcs:swim>
-		<safcs:simulated resourceDirectory="swim" updatePeriod="PT1S"
-			updateProbability="0.1" updateQuantity="1" />
+		<safcs:simulated resourceDirectory="swim"
+			updatePeriod="PT1S" updateProbability="0.1" updateQuantity="1" />
 	</safcs:swim>
 </safcs:scenario>

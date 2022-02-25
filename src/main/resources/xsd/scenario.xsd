@@ -39,28 +39,30 @@
     <element name="scenario">
 	    <complexType>
 	    	<sequence>
-	            <element name="environment" type="safcs:Environment"
+	    		<element name="environment" type="safcs:Environment"
 	    			maxOccurs="1" minOccurs="1">
 	    		</element>
-	            <element name="obstacles" type="safcs:Obstacles" maxOccurs="1" minOccurs="0">
+	    		<element name="obstacles" type="safcs:Obstacles"
+	    			maxOccurs="1" minOccurs="0">
 	    		</element>
-	            <element name="aircraft" type="safcs:Aircraft" maxOccurs="1"
-	    			minOccurs="0">
+	    		<element name="aircraft" type="safcs:Aircraft"
+	    			maxOccurs="1" minOccurs="0">
 	    		</element>
 	    		<element name="waypoints" type="safcs:Waypoints"
 	    			maxOccurs="1" minOccurs="0">
 	    		</element>
-	    		<element name="planner" type="safcs:Planner" maxOccurs="1"
-	    			minOccurs="1">
+                <element name="trajectory" type="safcs:Trajectory" maxOccurs="1" minOccurs="0"></element>
+                <element name="planner" type="safcs:Planner"
+	    			maxOccurs="1" minOccurs="1">
 	    		</element>
-	    		<element name="datalink" type="safcs:Datalink" maxOccurs="1"
-	    			minOccurs="1">
+	    		<element name="datalink" type="safcs:Datalink"
+	    			maxOccurs="1" minOccurs="1">
 	    		</element>
 	    		<element name="swim" type="safcs:Swim" maxOccurs="1"
 	    			minOccurs="1">
 	    		</element>
 	    	</sequence>
-	    	<attribute name="id" type="ID" use="required"></attribute>
+	    	<attribute name="id" type="string" use="required"></attribute>
 	        <attribute name="time" type="dateTime" use="optional"></attribute>
 	    	<attribute name="threshold" type="double" use="optional" default="0"></attribute>
 	    	<attribute name="globe" type="safcs:Globe" use="optional" default="Earth"></attribute>
@@ -131,12 +133,13 @@
 
     <simpleType name="AircraftType">
     	<restriction base="string">
-    		<enumeration value="Iris"></enumeration>
+    		<enumeration value="IRIS"></enumeration>
     		<enumeration value="A320"></enumeration>
+    		<enumeration value="H135"></enumeration>
     	</restriction>
     </simpleType>
 
-    
+
     <complexType name="Sphere">
     	<sequence>
     		<element name="center" type="safcs:Position" maxOccurs="1"
@@ -144,6 +147,7 @@
     		</element>
     	</sequence>
     	<attribute name="radius" type="double" use="required"></attribute>
+    	<attribute name="centerDatum" type="safcs:Datum" use="optional" default="ASL"></attribute>
     </complexType>
 
     <complexType name="Capabilities">
@@ -612,11 +616,15 @@
 
     <complexType name="Cylinder">
     	<sequence>
-    		<element name="location" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
+    		<element name="location" type="safcs:Location" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
     	</sequence>
+    	<attribute name="radius" type="double" use="required"></attribute>
     	<attribute name="bottom" type="double" use="required"></attribute>
     	<attribute name="top" type="double" use="required"></attribute>
-    	<attribute name="radius" type="double" use="required"></attribute>
+    	<attribute name="bottomDatum" type="safcs:Datum" use="optional" default="ASL"></attribute>
+    	<attribute name="topDatum" type="safcs:Datum" use="optional" default="ASL"></attribute>
     </complexType>
 
 
@@ -624,15 +632,22 @@
     	<complexContent>
     		<extension base="safcs:Position">
     			<sequence>
-    				<element name="depiction" type="safcs:Depiction" maxOccurs="1" minOccurs="0"></element>
+    				<element name="depiction" type="safcs:Depiction"
+    					maxOccurs="1" minOccurs="0">
+    				</element>
     			</sequence>
     			<attribute name="designator" type="string"
     				use="optional" default="?">
     			</attribute>
+    			<attribute name="cost" type="double" use="optional"></attribute>
+    			<attribute name="dtg" type="double" use="optional"></attribute>
+                <attribute name="ttg" type="duration" use="optional"></attribute>
+                <attribute name="eto" type="time" use="optional"></attribute>
+    			<attribute name="ato" type="time" use="optional"></attribute>
     		</extension>
     	</complexContent>
     </complexType>
-    
+
 
 
     <complexType name="Depiction">
@@ -651,12 +666,35 @@
 
     <complexType name="Box">
     	<sequence>
-    		<element name="begin" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
-    		<element name="end" type="safcs:Location" maxOccurs="1" minOccurs="1"></element>
+    		<element name="begin" type="safcs:Location" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="end" type="safcs:Location" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
     	</sequence>
     	<attribute name="leftWidth" type="double" use="required"></attribute>
     	<attribute name="rightWidth" type="double" use="required"></attribute>
     	<attribute name="bottom" type="double" use="required"></attribute>
     	<attribute name="top" type="double" use="required"></attribute>
+    	<attribute name="bottomDatum" type="safcs:Datum" use="optional" default="ASL"></attribute>
+    	<attribute name="topDatum" type="safcs:Datum" use="optional" default="ASL"></attribute>
     </complexType>
+
+    <complexType name="Trajectory">
+    	<sequence>
+    		<element name="waypoint" type="safcs:Waypoint"
+    			maxOccurs="unbounded" minOccurs="1">
+    		</element>
+    		<element name="depiction" type="safcs:Depiction" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <simpleType name="Datum">
+    	<restriction base="string">
+    		<enumeration value="AGL"></enumeration>
+    		<enumeration value="AGR"></enumeration>
+    		<enumeration value="ASL"></enumeration>
+    	</restriction>
+    </simpleType>
 </schema>

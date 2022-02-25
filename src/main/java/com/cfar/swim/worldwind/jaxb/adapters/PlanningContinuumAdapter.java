@@ -73,6 +73,7 @@ public class PlanningContinuumAdapter extends XmlAdapter<PlanningContinuum, com.
 		Box box = new GeometricBoxAdapter(this.globe).unmarshal(continuum);
 		com.cfar.swim.worldwind.environments.PlanningContinuum unmarshalledContinuum =
 				new com.cfar.swim.worldwind.environments.PlanningContinuum(box);
+		unmarshalledContinuum.setResolution(continuum.getResolution());
 		unmarshalledContinuum.setGlobe(this.globe);
 		unmarshalledContinuum.setNormalizer(box.getDiameter());
 		return unmarshalledContinuum;

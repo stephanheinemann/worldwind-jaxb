@@ -33,6 +33,7 @@ import javax.activation.UnsupportedDataTypeException;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import com.cfar.swim.worldwind.aircraft.A320;
+import com.cfar.swim.worldwind.aircraft.H135;
 import com.cfar.swim.worldwind.aircraft.Iris;
 import com.cfar.swim.worldwind.jaxb.scenario.Aircraft;
 import com.cfar.swim.worldwind.jaxb.scenario.AircraftType;
@@ -65,6 +66,12 @@ public class AircraftAdapter extends XmlAdapter<Aircraft, com.cfar.swim.worldwin
 		switch (aircraft.getType()) {
 		case A_320:
 			unmarshalledAircraft = new A320(
+					new PositionAdapter().unmarshal(aircraft.getCenter()),
+					aircraft.getRadius(),
+					com.cfar.swim.worldwind.aircraft.CombatIdentification.valueOf(aircraft.getCid().name()));
+			break;
+		case H_135:
+			unmarshalledAircraft = new H135(
 					new PositionAdapter().unmarshal(aircraft.getCenter()),
 					aircraft.getRadius(),
 					com.cfar.swim.worldwind.aircraft.CombatIdentification.valueOf(aircraft.getCid().name()));
@@ -110,11 +117,14 @@ public class AircraftAdapter extends XmlAdapter<Aircraft, com.cfar.swim.worldwin
 		ObstacleSphere obstacleSphere = new ObstacleSphereAdapter().marshal(aircraft);
 		marshalledAircraft.setCenter(obstacleSphere.getCenter());
 		marshalledAircraft.setRadius(obstacleSphere.getRadius());
+		marshalledAircraft.setCenterDatum(obstacleSphere.getCenterDatum());
 		marshalledAircraft.setCostInterval(obstacleSphere.getCostInterval());
 		marshalledAircraft.setDepiction(obstacleSphere.getDepiction());
 		
 		if (aircraft instanceof A320) {
 			marshalledAircraft.setType(AircraftType.A_320);
+		} else if (aircraft instanceof H135) {
+			marshalledAircraft.setType(AircraftType.H_135);
 		} else if (aircraft instanceof Iris) {
 			marshalledAircraft.setType(AircraftType.IRIS);
 		} else {

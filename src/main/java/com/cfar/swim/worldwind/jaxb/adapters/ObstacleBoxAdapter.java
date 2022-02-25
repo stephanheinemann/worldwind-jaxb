@@ -90,6 +90,8 @@ public class ObstacleBoxAdapter extends XmlAdapter<ObstacleBox, com.cfar.swim.wo
 		marshalledObstacleBox.setRightWidth(box.getRightWidth());
 		marshalledObstacleBox.setBottom(box.getBottom());
 		marshalledObstacleBox.setTop(box.getTop());
+		marshalledObstacleBox.setBottomDatum(box.getBottomDatum());
+		marshalledObstacleBox.setTopDatum(box.getTopDatum());
 		marshalledObstacleBox.setCostInterval(new CostIntervalAdapter().marshal(obstacleBox.getCostInterval()));
 		
 		if (obstacleBox.hasDepiction()) {
