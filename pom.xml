@@ -33,7 +33,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.uvic-cfar.swim</groupId>
 	<artifactId>worldwind-jaxb</artifactId>
-	<version>2.0.0-alpha1-SNAPSHOT</version>
+	<version>2.0.0-alpha1</version>
 	<packaging>bundle</packaging>
 	<name>SWIM Worldwind JAXB</name>
 	<description>The Java XML Bindings for SWIM Worldwind</description>
